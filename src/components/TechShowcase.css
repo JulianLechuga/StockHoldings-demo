@@ -1,0 +1,124 @@
+.showcase-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.showcase-header {
+  margin-bottom: 8px;
+}
+
+.mt-2 { margin-top: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.gap-2 { gap: 8px; }
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.showcase-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.showcase-panel.full-width {
+  grid-column: 1 / -1;
+}
+
+.panel-title {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.live-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 13px;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.live-toggle-btn.active {
+  background: rgba(0, 230, 118, 0.1);
+  color: var(--status-up);
+  border-color: rgba(0, 230, 118, 0.3);
+  box-shadow: 0 0 12px rgba(0, 230, 118, 0.2);
+}
+
+.live-data-preview {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.preview-row {
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.preview-row:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.performers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.performer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(90deg, rgba(41, 98, 255, 0.1), transparent);
+  border-left: 2px solid var(--accent-blue);
+  border-radius: 0 8px 8px 0;
+}
+
+.rank-badge {
+  background: var(--accent-blue);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.state-viewer {
+  background: #000;
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+.state-viewer code {
+  color: #a0c0ff;
+  font-family: "Fira Code", monospace;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .showcase-grid {
+    grid-template-columns: 1fr;
+  }
+}

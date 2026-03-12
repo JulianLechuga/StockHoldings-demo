@@ -1,5 +1,6 @@
 import { ArrowUpRight, ArrowDownRight, TrendingUp, DollarSign, Activity, Award } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { usePortfolio } from '../context/PortfolioContext';
 import './Dashboard.css';
 
 const data = [
@@ -26,9 +27,18 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export function Dashboard() {
+  const { state, dispatch } = usePortfolio();
+  
+  // Calculate dynamic mock data
   const isUp = true;
-  const todayReturn = 4740.50;
-  const todayReturnPerc = 3.8;
+  const startingValue = 124500;
+  const todayReturn = state.portfolioValue - startingValue;
+  const todayReturnPerc = ((todayReturn / startingValue) * 100).toFixed(2);
+
+  // Quick Deposit Action
+  const handleDeposit = () => {
+    dispatch({ type: 'DEPOSIT', amount: 5000 });
+  };
 
   return (
     <div className="dashboard animate-fade-in">
@@ -36,18 +46,18 @@ export function Dashboard() {
         <div className="portfolio-summary">
           <h1 className="text-h2">Total Portfolio Value</h1>
           <div className="portfolio-value-container">
-            <span className="text-h1 glow-text">$129,240.50</span>
+            <span className="text-h1 glow-text">${state.portfolioValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
             <div className={`status-badge ${isUp ? 'up' : 'down'}`}>
               {isUp ? <ArrowUpRight size={20} /> : <ArrowDownRight size={20} />}
               <span className="text-h3">
-                {isUp ? '+' : '-'}${Math.abs(todayReturn).toLocaleString()} ({todayReturnPerc}%)
+                {isUp ? '+' : '-'}${Math.abs(todayReturn).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({todayReturnPerc}%)
               </span>
               <span className="text-meta">Today</span>
             </div>
           </div>
         </div>
         <div className="header-actions">
-          <button className="primary-btn">Deposit Funds</button>
+          <button className="primary-btn" onClick={handleDeposit}>Deposit $5k</button>
           <button className="secondary-btn">Trade</button>
         </div>
       </header>
@@ -102,21 +112,21 @@ export function Dashboard() {
           <div className="stat-icon-wrapper"><DollarSign size={20} /></div>
           <div className="stat-info">
             <span className="text-meta">Buying Power</span>
-            <span className="text-h3">$14,250.00</span>
+            <span className="text-h3">${state.buyingPower.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
           </div>
         </div>
         <div className="glass-panel stat-card">
           <div className="stat-icon-wrapper success"><Activity size={20} /></div>
           <div className="stat-info">
-            <span className="text-meta">Total Profit/Loss</span>
-            <span className="text-h3 color-up">+$24,150.80</span>
+            <span className="text-meta">Total Return</span>
+            <span className="text-h3 color-up">+{todayReturnPerc}%</span>
           </div>
         </div>
         <div className="glass-panel stat-card">
           <div className="stat-icon-wrapper purple"><Award size={20} /></div>
           <div className="stat-info">
-            <span className="text-meta">Rewards Builder</span>
-            <span className="text-h3">1,250 pts</span>
+            <span className="text-meta">Transactions</span>
+            <span className="text-h3">{state.transactions.length} total</span>
           </div>
         </div>
       </div>

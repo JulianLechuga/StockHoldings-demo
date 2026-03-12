@@ -1,5 +1,6 @@
+import { NavLink } from 'react-router-dom';
 import { Home, Compass, PieChart, Activity, Bell, Settings, LogOut, Newspaper, ArrowRightLeft } from 'lucide-react';
-import './Sidebar.css'; // Let's create a dedicated CSS for sidebar
+import './Sidebar.css'; 
 
 export function Sidebar() {
   return (
@@ -12,26 +13,26 @@ export function Sidebar() {
       <div className="sidebar-nav">
         <div className="nav-section">
           <div className="nav-label text-meta">MENU</div>
-          <button className="nav-item active">
+          <NavLink to="/dashboard" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
             <Home size={20} />
             <span>Dashboard</span>
-          </button>
-          <button className="nav-item">
+          </NavLink>
+          <NavLink to="/showcase" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
             <Compass size={20} />
-            <span>Discover</span>
-          </button>
-          <button className="nav-item">
+            <span>Tech Showcase</span>
+          </NavLink>
+          <NavLink to="/portfolio-demo" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
             <PieChart size={20} />
             <span>Portfolio</span>
-          </button>
-          <button className="nav-item">
+          </NavLink>
+          <NavLink to="/transactions-demo" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
             <ArrowRightLeft size={20} />
             <span>Transactions</span>
-          </button>
-          <button className="nav-item">
+          </NavLink>
+          <NavLink to="/news-demo" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
             <Newspaper size={20} />
             <span>News</span>
-          </button>
+          </NavLink>
         </div>
 
         <div className="nav-section">

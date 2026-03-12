@@ -1,28 +1,57 @@
+import { useState } from 'react';
 import { Plus, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { usePortfolio } from '../context/PortfolioContext';
 import './Watchlist.css';
 import './TradeCard.css';
 
-const watchlistData = [
-  { symbol: 'AAPL', name: 'Apple Inc.', price: 173.50, change: 1.25, isUp: true },
-  { symbol: 'TSLA', name: 'Tesla, Inc.', price: 202.64, change: -2.3, isUp: false },
-  { symbol: 'NVDA', name: 'NVIDIA Corp', price: 822.79, change: 4.5, isUp: true },
-  { symbol: 'MSFT', name: 'Microsoft', price: 406.32, change: 0.8, isUp: true },
-  { symbol: 'AMZN', name: 'Amazon.com', price: 178.15, change: -1.1, isUp: false },
-  { symbol: 'BTC', name: 'Bitcoin', price: 67420.00, change: 5.2, isUp: true, isCrypto: true },
-];
-
 export function Watchlist() {
+  const { state, dispatch } = usePortfolio();
+  
+  // Local Trade Panel State
+  const [selectedAsset, setSelectedAsset] = useState(state.watchlist[0]);
+  const [tradeAction, setTradeAction] = useState<'buy' | 'sell'>('buy');
+  const [sharesValue, setSharesValue] = useState<number>(1);
+
+  const estimatedCost = sharesValue * selectedAsset.price;
+  const canAfford = tradeAction === 'buy' ? state.buyingPower >= estimatedCost : true; // Assuming we can sell infinite mock shares for demo
+
+  // Global Mock Trade Execution
+  const handleTrade = () => {
+    if (sharesValue <= 0) return;
+    if (tradeAction === 'buy' && !canAfford) return;
+
+    dispatch({
+      type: 'EXECUTE_TRADE',
+      trade: {
+        type: tradeAction,
+        asset: selectedAsset.symbol,
+        name: selectedAsset.name,
+        shares: sharesValue,
+        price: selectedAsset.price,
+      },
+      cost: estimatedCost
+    });
+
+    // Reset shares after successful trade
+    setSharesValue(1);
+  };
+
   return (
     <div className="watchlist-container animate-fade-in" style={{ animationDelay: '0.1s' }}>
       <div className="glass-panel watchlist-panel">
-        <div className="watchlist-header flex-between">
+        <div className="watchlist-header flex-between" style={{ marginBottom: '16px' }}>
           <h2 className="text-h3">Watchlist</h2>
           <button className="icon-btn add-btn"><Plus size={18} /></button>
         </div>
 
         <div className="watchlist-list">
-          {watchlistData.map((asset) => (
-            <div key={asset.symbol} className="watchlist-item">
+          {state.watchlist.map((asset) => (
+            <div 
+              key={asset.symbol} 
+              className={`watchlist-item ${selectedAsset.symbol === asset.symbol ? 'selected' : ''}`}
+              onClick={() => setSelectedAsset(asset)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="item-info">
                 <span className="item-symbol">{asset.symbol}</span>
                 <span className="item-name text-meta">{asset.name}</span>
@@ -56,36 +85,63 @@ export function Watchlist() {
       <div className="glass-panel trade-card">
         <div className="trade-card-header flex-between">
           <div className="trade-asset-info">
-            <h3 className="text-h2">AAPL</h3>
-            <span className="text-meta">Apple Inc.</span>
+            <h3 className="text-h2">{selectedAsset.symbol}</h3>
+            <span className="text-meta">{selectedAsset.name}</span>
           </div>
-          <span className="text-h2">$173.50</span>
+          <span className="text-h2">${selectedAsset.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
         </div>
         
         <div className="trade-tabs">
-          <button className="trade-tab active">Buy</button>
-          <button className="trade-tab">Sell</button>
+          <button 
+            className={`trade-tab ${tradeAction === 'buy' ? 'active' : ''}`}
+            onClick={() => setTradeAction('buy')}
+          >Buy</button>
+          <button 
+            className={`trade-tab ${tradeAction === 'sell' ? 'active' : ''}`}
+            onClick={() => setTradeAction('sell')}
+          >Sell</button>
         </div>
         
         <div className="trade-form">
           <div className="trade-input-group">
             <span className="text-meta">Shares</span>
-            <input type="number" className="trade-input" defaultValue="1" min="1" />
+            <input 
+              type="number" 
+              className="trade-input" 
+              value={sharesValue} 
+              min="1" 
+              onChange={(e) => setSharesValue(Number(e.target.value) || 0)}
+            />
           </div>
           
           <div className="trade-summary flex-between text-meta">
             <span>Market Price</span>
-            <span>$173.50</span>
+            <span>${selectedAsset.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
           </div>
           
           <div className="trade-summary flex-between text-h3">
             <span>Estimated Cost</span>
-            <span>$173.50</span>
+            <span>${estimatedCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
           </div>
           
-          <button className="trade-action-btn">Review Order</button>
+          <button 
+            className={`trade-action-btn ${tradeAction === 'sell' ? 'sell-action' : ''} ${!canAfford ? 'disabled' : ''}`}
+            onClick={handleTrade}
+            disabled={!canAfford}
+            style={{ 
+              opacity: canAfford ? 1 : 0.5, 
+              cursor: canAfford ? 'pointer' : 'not-allowed',
+              background: tradeAction === 'sell' ? 'rgba(255, 61, 0, 0.1)' : '',
+              color: tradeAction === 'sell' ? 'var(--status-down)' : '',
+              borderColor: tradeAction === 'sell' ? 'rgba(255, 61, 0, 0.3)' : '',
+              boxShadow: tradeAction === 'sell' ? '0 0 12px rgba(255, 61, 0, 0.15)' : ''
+            }}
+          >
+            {canAfford ? `Review ${tradeAction === 'buy' ? 'Order' : 'Sale'}` : 'Insufficient Funds'}
+          </button>
+
           <div className="text-center text-meta trade-buying-power">
-            Buying Power: <strong>$14,250.00</strong>
+            Buying Power: <strong className={!canAfford ? 'color-down' : ''}>${state.buyingPower.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
           </div>
         </div>
       </div>
