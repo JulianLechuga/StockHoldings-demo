@@ -1,0 +1,78 @@
+.transactions-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.panel-header {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.view-all-btn {
+  color: var(--accent-blue);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-all-btn:hover {
+  filter: brightness(1.2);
+}
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.transaction-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-color);
+  transform: translateX(4px);
+}
+
+.tx-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tx-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.tx-name {
+  color: #fff;
+  font-weight: 500;
+}
+
+.tx-amount-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.tx-total {
+  font-weight: 600;
+}

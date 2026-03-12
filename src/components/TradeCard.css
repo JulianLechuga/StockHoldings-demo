@@ -1,0 +1,114 @@
+.trade-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.trade-card-header {
+  margin-bottom: 24px;
+  align-items: flex-start;
+}
+
+.trade-asset-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trade-tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 6px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border-color);
+}
+
+.trade-tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.trade-tab:hover {
+  color: var(--text-primary);
+}
+
+.trade-tab.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.trade-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.trade-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trade-input {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  color: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 600;
+  outline: none;
+  font-family: var(--font-sans);
+  text-align: right;
+  transition: all 0.3s ease;
+}
+
+.trade-input:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(41, 98, 255, 0.2);
+}
+
+.trade-summary {
+  padding: 4px 0;
+}
+
+.trade-summary.text-h3 {
+  border-top: 1px solid var(--border-color);
+  padding-top: 16px;
+  margin-bottom: 8px;
+}
+
+.trade-action-btn {
+  background: linear-gradient(135deg, var(--status-up), #00b304);
+  color: #fff;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 16px rgba(0, 230, 118, 0.3);
+  transition: all 0.3s ease;
+}
+
+.trade-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 230, 118, 0.5);
+}
+
+.trade-tabs .trade-tab:not(.active) {
+  cursor: pointer;
+}
+
+.trade-buying-power {
+  margin-top: 8px;
+  font-size: 13px;
+}

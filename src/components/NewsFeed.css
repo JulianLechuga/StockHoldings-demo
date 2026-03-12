@@ -1,0 +1,71 @@
+.news-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.news-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.news-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.news-category {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.category-tag.macro { background: rgba(41, 98, 255, 0.2); color: #82b1ff; }
+.category-tag.tech { background: rgba(0, 230, 118, 0.2); color: #69f0ae; }
+.category-tag.auto { background: rgba(255, 61, 0, 0.2); color: #ff9e80; }
+.category-tag.crypto { background: rgba(255, 171, 0, 0.2); color: #ffd740; }
+
+.news-title {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.news-footer {
+  margin-top: 4px;
+}
+
+.read-more-btn {
+  padding: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
